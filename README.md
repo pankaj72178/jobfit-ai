@@ -1,36 +1,37 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# JobFit AI
 
-## Getting Started
+Paste **or upload (PDF)** your résumé and a job description → get an instant **AI match score**, the **keywords you're missing**, **how to improve your résumé**, the **roles that fit you**, **rewritten bullets**, and a built-in **application tracker**.
 
-First, run the development server:
+Built with **Next.js 16 · React 19 · TypeScript · Tailwind CSS v4** and the **Anthropic Claude API** (`claude-opus-4-8`, structured outputs).
+
+## Run it
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+cp .env.local.example .env.local   # then paste your Anthropic API key
+npm run dev                        # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Get an API key at <https://console.anthropic.com/settings/keys> and put it in `.env.local`:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+ANTHROPIC_API_KEY=sk-ant-...
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Without a key the UI still loads and the tracker works — the analyze button just returns a friendly "missing key" message.
 
-## Learn More
+## How it works
 
-To learn more about Next.js, take a look at the following resources:
+- **`app/api/analyze/route.ts`** — server route that sends the résumé + JD to Claude with a strict JSON schema (`output_config.format`), so the response is always valid structured data (score, matched/missing keywords, strengths, gaps, improvement tips, recommended roles, rewritten bullets). A **PDF résumé is sent natively** to Claude as a `document` block — no PDF-parsing library needed.
+- **`app/page.tsx`** — the UI: two inputs, an animated score ring, keyword chips, and the application tracker.
+- **Tracker** — saved in your browser's `localStorage` (no account needed). Each entry keeps its match score and a status: Saved → Applied → Interview → Offer / Rejected.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Roadmap (phase 2)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Accounts + database persistence (so the tracker syncs across devices)
+- One-click cover-letter draft from the analysis
+- Auto-fill the tracker's company/role from the job description
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Built by Pankaj Kumar.
