@@ -158,12 +158,23 @@ export default function Home() {
     <main className="mx-auto max-w-5xl px-5 py-10 sm:py-16">
       {/* Header */}
       <header className="mb-10 text-center">
-        <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-medium text-white/60">
+        <div className="mb-4 flex items-center justify-center gap-3">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/logo.svg"
+            alt="JobFit AI logo"
+            width={52}
+            height={52}
+            className="rounded-2xl shadow-lg shadow-indigo-500/30"
+          />
+          <h1 className="text-balance text-4xl font-bold tracking-tight sm:text-5xl">
+            <span className="gradient-text">JobFit</span>
+            <span className="text-white/90"> AI</span>
+          </h1>
+        </div>
+        <div className="mb-1 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-medium text-white/60">
           <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" /> Powered by Claude
         </div>
-        <h1 className="text-balance text-4xl font-bold tracking-tight sm:text-5xl">
-          <span className="gradient-text">JobFit AI</span>
-        </h1>
         <p className="mx-auto mt-3 max-w-2xl text-pretty text-white/55">
           Paste or upload your résumé (PDF) and a job description. Get an instant match
           score, missing keywords, how to improve, the roles that fit you, and rewritten
