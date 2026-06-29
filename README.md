@@ -1,5 +1,7 @@
 # JobFit AI
 
+access link :- https://jobfit-ai-one.vercel.app/
+
 Paste **or upload (PDF)** your résumé and a job description → get an instant **AI match score**, the **keywords you're missing**, **how to improve your résumé**, the **roles that fit you**, **rewritten bullets**, and a built-in **application tracker**.
 
 Built with **Next.js 16 · React 19 · TypeScript · Tailwind CSS v4** and the **Anthropic Claude API** (`claude-opus-4-8`, structured outputs).
