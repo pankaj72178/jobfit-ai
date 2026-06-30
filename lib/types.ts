@@ -9,6 +9,12 @@ export type Analysis = {
   gaps: string[];
   improvements: string[]; // actionable ways to improve the résumé
   recommendedRoles: { title: string; reason: string }[]; // roles that fit the candidate
+  companies: { name: string; why: string }[]; // employers that could hire this candidate
+  payEstimate: {
+    internship: string; // estimated stipend range
+    fullTime: string; // estimated entry-level salary range
+    note: string; // caveat: varies by location, company tier, skills
+  };
   rewrittenBullets: { original: string; improved: string }[];
 };
 

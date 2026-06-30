@@ -177,8 +177,9 @@ export default function Home() {
         </div>
         <p className="mx-auto mt-3 max-w-2xl text-pretty text-white/55">
           Paste or upload your résumé (PDF) and a job description. Get an instant match
-          score, missing keywords, how to improve, the roles that fit you, and rewritten
-          bullets — then track every application.
+          score, missing keywords, how to improve, the roles that fit you, companies that
+          could hire you, an estimated pay range, and rewritten bullets — then track every
+          application.
         </p>
       </header>
 
@@ -303,6 +304,37 @@ export default function Home() {
                   </div>
                 ))}
               </div>
+            </div>
+          )}
+
+          {analysis.companies?.length > 0 && (
+            <div className="mt-7">
+              <h3 className="mb-3 text-sm font-semibold text-violet-300">🏢 Companies that could hire you</h3>
+              <div className="grid gap-3 sm:grid-cols-2">
+                {analysis.companies.map((c, i) => (
+                  <div key={i} className="rounded-xl bg-black/20 p-4 ring-1 ring-white/10">
+                    <p className="font-semibold text-white/90">{c.name}</p>
+                    <p className="mt-1 text-sm text-white/55">{c.why}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {analysis.payEstimate && (
+            <div className="mt-7">
+              <h3 className="mb-3 text-sm font-semibold text-emerald-300">💰 Estimated pay</h3>
+              <div className="grid gap-3 sm:grid-cols-2">
+                <div className="rounded-xl bg-emerald-500/5 p-4 ring-1 ring-emerald-400/20">
+                  <p className="text-xs uppercase tracking-wide text-white/40">Internship</p>
+                  <p className="mt-1 text-lg font-bold text-emerald-300">{analysis.payEstimate.internship}</p>
+                </div>
+                <div className="rounded-xl bg-emerald-500/5 p-4 ring-1 ring-emerald-400/20">
+                  <p className="text-xs uppercase tracking-wide text-white/40">Entry-level (full-time)</p>
+                  <p className="mt-1 text-lg font-bold text-emerald-300">{analysis.payEstimate.fullTime}</p>
+                </div>
+              </div>
+              <p className="mt-2 text-xs text-white/40">{analysis.payEstimate.note}</p>
             </div>
           )}
 

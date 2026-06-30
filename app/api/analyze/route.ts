@@ -60,6 +60,42 @@ const ANALYSIS_SCHEMA = {
         required: ["title", "reason"],
       },
     },
+    companies: {
+      type: "array",
+      description:
+        "4–6 realistic employers (or employer types with example names) that could hire this candidate for the recommended roles, each with a short reason. Prefer companies that match the candidate's region and experience level.",
+      items: {
+        type: "object",
+        additionalProperties: false,
+        properties: {
+          name: { type: "string" },
+          why: { type: "string" },
+        },
+        required: ["name", "why"],
+      },
+    },
+    payEstimate: {
+      type: "object",
+      additionalProperties: false,
+      description:
+        "Realistic estimated pay for this candidate, in the currency of their inferred region (default INR/India if the résumé says India). Use ranges, not single numbers.",
+      properties: {
+        internship: {
+          type: "string",
+          description: "Estimated internship stipend range, e.g. '₹15,000–40,000 / month'.",
+        },
+        fullTime: {
+          type: "string",
+          description: "Estimated entry-level full-time salary range, e.g. '₹6–12 LPA'.",
+        },
+        note: {
+          type: "string",
+          description:
+            "One-line caveat: this is an AI estimate that varies by location, company tier, and skill depth.",
+        },
+      },
+      required: ["internship", "fullTime", "note"],
+    },
     rewrittenBullets: {
       type: "array",
       description:
@@ -85,11 +121,13 @@ const ANALYSIS_SCHEMA = {
     "gaps",
     "improvements",
     "recommendedRoles",
+    "companies",
+    "payEstimate",
     "rewrittenBullets",
   ],
 } as const;
 
-const SYSTEM = `You are an expert technical recruiter and résumé coach. You compare a candidate's résumé against a specific job description and produce an honest, actionable fit analysis. Be specific and concrete — reference real skills and phrasing from both texts. Score strictly: 85+ only for a genuinely strong match, 50–70 for partial, below 40 for a weak fit. For "improvements", give concrete résumé edits (add metrics, stronger verbs, a missing section, a skill to learn) ordered by impact. For "recommendedRoles", suggest roles the candidate is genuinely well-suited for based on their overall profile — not only the role they pasted. When rewriting bullets, keep them truthful to the original experience but make them action-led, quantified where possible, and aligned to the job's keywords.`;
+const SYSTEM = `You are an expert technical recruiter and résumé coach. You compare a candidate's résumé against a specific job description and produce an honest, actionable fit analysis. Be specific and concrete — reference real skills and phrasing from both texts. Score strictly: 85+ only for a genuinely strong match, 50–70 for partial, below 40 for a weak fit. For "improvements", give concrete résumé edits (add metrics, stronger verbs, a missing section, a skill to learn) ordered by impact. For "recommendedRoles", suggest roles the candidate is genuinely well-suited for based on their overall profile — not only the role they pasted. For "companies", suggest realistic employers that hire for those roles at the candidate's experience level (favor product startups, service/IT companies, and remote-first teams for early-career candidates); you may name example companies but keep them plausible for the candidate's region. For "payEstimate", infer the candidate's region from the résumé (default to India / INR if it mentions an Indian location) and give realistic ranges for an internship stipend and an entry-level full-time salary — never overstate; add a caveat that it is only an estimate. When rewriting bullets, keep them truthful to the original experience but make them action-led, quantified where possible, and aligned to the job's keywords.`;
 
 type DocBlock = {
   type: "document";
